@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+
+
+    <context:property-placeholder location="jdbc.properties"/>
+
+
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource" depends-on="h2Server">
+        <property name="driverClass" value="${jdbc.driverClassName}" />
+        <property name="url" value="${jdbc.url}" />
+        <property name="username" value="${jdbc.username}" />
+        <property name="password" value="${jdbc.password}" />
+    </bean>
+
+    <bean id="dataSourceInitializer" class="org.springframework.jdbc.datasource.init.DataSourceInitializer">
+        <property name="dataSource" ref="dataSource" />
+        <property name="databasePopulator">
+            <bean class="org.springframework.jdbc.datasource.init.ResourceDatabasePopulator">
+                <property name="sqlScriptEncoding" value="UTF-8" />
+                <property name="scripts">
+                    <list>
+                        <value>db/scripts/create_database.sql</value>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+
+    <!-- Databazi je mozne prohlizet jakymkoliv SQL klientem na portu 9092. -->
+    <bean id="h2Server" class="org.h2.tools.Server" factory-method="createTcpServer" init-method="start" destroy-method="stop" depends-on="h2WebServer">
+        <constructor-arg value="-tcp,-tcpAllowOthers,-tcpPort,9092"/>
+    </bean>
+
+    <!-- Nastartuje webovou konzoli H2 databaze ve stejne JVM. Tu je pak mozne zobrazit pomoci URL: http://localhost:8082  -->
+    <bean id="h2WebServer" class="org.h2.tools.Server" factory-method="createWebServer" init-method="start" destroy-method="stop">
+        <constructor-arg value="-web,-webAllowOthers,-webPort,8082"/>
+    </bean>
+
+
+
+</beans>

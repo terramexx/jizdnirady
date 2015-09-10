@@ -13,6 +13,19 @@ idea {
     }
 }
 
+repositories {
+    mavenCentral()
+}
+
 task wrapper(type: Wrapper) {
     gradleVersion = '2.6'
+}
+
+dependencies {
+    compile 'org.springframework:spring-context:4.2.1.RELEASE'
+    compile 'org.springframework:spring-jdbc:4.2.1.RELEASE'
+
+    testCompile 'org.springframework:spring-test:4.2.1.RELEASE'
+    testCompile 'com.h2database:h2:1.4.188'
+    testCompile 'junit:junit:4.12'
 }
