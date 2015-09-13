@@ -12,7 +12,8 @@
     <context:property-placeholder location="jdbc.properties"/>
 
 
-    <bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource" depends-on="h2Server">
+    <!--<bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource" depends-on="h2Server">-->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
         <property name="driverClass" value="${jdbc.driverClassName}" />
         <property name="url" value="${jdbc.url}" />
         <property name="username" value="${jdbc.username}" />
@@ -35,15 +36,18 @@
 
 
     <!-- Databazi je mozne prohlizet jakymkoliv SQL klientem na portu 9092. -->
+<!--
     <bean id="h2Server" class="org.h2.tools.Server" factory-method="createTcpServer" init-method="start" destroy-method="stop" depends-on="h2WebServer">
         <constructor-arg value="-tcp,-tcpAllowOthers,-tcpPort,9092"/>
     </bean>
+-->
 
     <!-- Nastartuje webovou konzoli H2 databaze ve stejne JVM. Tu je pak mozne zobrazit pomoci URL: http://localhost:8082  -->
+<!--
     <bean id="h2WebServer" class="org.h2.tools.Server" factory-method="createWebServer" init-method="start" destroy-method="stop">
         <constructor-arg value="-web,-webAllowOthers,-webPort,8082"/>
     </bean>
-
+-->
 
 
 </beans>

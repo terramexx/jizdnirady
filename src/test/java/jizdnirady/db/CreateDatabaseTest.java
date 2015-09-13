@@ -11,7 +11,6 @@ public class CreateDatabaseTest {
 
     @Test
     public void createDatabase() throws Exception {
-        Thread.currentThread().sleep(60000L);
     }
 
 }
