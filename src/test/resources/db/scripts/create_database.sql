@@ -189,7 +189,7 @@ CREATE TABLE zasspoje (
   pevny_kod1            VARCHAR(5),
   pevny_kod2            VARCHAR(5),
   pevny_kod3            VARCHAR(5),
-  kilometry             DECIMAL NOT NULL,
+  kilometry             BIGINT NOT NULL,
   cas_prijezdu          VARCHAR(5) NOT NULL,
   cas_odjezdu           VARCHAR(5),
   cas_prijezdu_min      VARCHAR(5) NOT NULL,

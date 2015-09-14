@@ -1,6 +1,6 @@
 package jizdnirady.jdf.dto;
 
-public class JdfUdaje extends JdfObject {
+public class JdfUdaj extends JdfObject {
 
     private Long cisloLinky;
     private Long cisloUdaje;
@@ -15,12 +15,20 @@ public class JdfUdaje extends JdfObject {
         this.cisloLinky = cisloLinky;
     }
 
+    public void setCisloLinky(String str) {
+        this.cisloLinky = parseLong(str);
+    }
+
     public Long getCisloUdaje() {
         return cisloUdaje;
     }
 
     public void setCisloUdaje(Long cisloUdaje) {
         this.cisloUdaje = cisloUdaje;
+    }
+
+    public void setCisloUdaje(String str) {
+        this.cisloUdaje = parseLong(str);
     }
 
     public String getText() {
@@ -39,9 +47,13 @@ public class JdfUdaje extends JdfObject {
         this.rozliseniLinky = rozliseniLinky;
     }
 
+    public void setRozliseniLinky(String str) {
+        this.rozliseniLinky = parseLong(str);
+    }
+
     @Override
     public String toString() {
-        return "JdfUdaje{" +
+        return "JdfUdaj{" +
                 "cisloLinky=" + cisloLinky +
                 ", cisloUdaje=" + cisloUdaje +
                 ", text='" + text + '\'' +

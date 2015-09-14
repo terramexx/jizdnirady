@@ -23,6 +23,10 @@ public class JdfZastavka extends JdfObject {
         this.cisloZastavky = cisloZastavky;
     }
 
+    public void setCisloZastavky(String str) {
+        this.cisloZastavky = parseLong(str);
+    }
+
     public String getNazevObce() {
         return nazevObce;
     }
