@@ -21,11 +21,12 @@ repositories {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.6'
+    gradleVersion = '2.7'
 }
 
 project.dependencies {
     compile 'org.apache.commons:commons-lang3:3.4'
+    compile 'org.apache.commons:commons-compress:1.10'
     compile 'org.springframework:spring-context:4.2.1.RELEASE'
     compile 'org.springframework:spring-jdbc:4.2.1.RELEASE'
 
