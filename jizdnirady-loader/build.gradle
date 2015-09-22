@@ -1,0 +1,31 @@
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'eclipse'
+
+project.version = '0.1'
+project.group = 'jizdnirady'
+
+project.sourceCompatibility = 1.8
+project.targetCompatibility = 1.8
+
+idea {
+    module {
+        jdkName = '1.8'
+        downloadJavadoc = true
+        downloadSources = false
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+project.dependencies {
+}
+
+project.jar {
+    manifest {
+        attributes  'Implementation-Title': 'jizdnirady-loader',
+                    'Implementation-Version': version
+    }
+}

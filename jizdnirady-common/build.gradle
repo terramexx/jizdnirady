@@ -1,0 +1,39 @@
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'eclipse'
+
+project.version = '0.1'
+project.group = 'jizdnirady'
+
+project.sourceCompatibility = 1.8
+project.targetCompatibility = 1.8
+
+idea {
+    module {
+        jdkName = '1.8'
+        downloadJavadoc = true
+        downloadSources = false
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+project.dependencies {
+    compile 'org.apache.commons:commons-lang3:3.4'
+    compile 'org.apache.commons:commons-compress:1.10'
+    compile 'org.springframework:spring-context:4.2.1.RELEASE'
+    compile 'org.springframework:spring-jdbc:4.2.1.RELEASE'
+
+    testCompile 'org.springframework:spring-test:4.2.1.RELEASE'
+    testCompile 'com.h2database:h2:1.4.188'
+    testCompile 'junit:junit:4.12'
+}
+
+project.jar {
+    manifest {
+        attributes  'Implementation-Title': 'jizdnirady-common',
+                    'Implementation-Version': version
+    }
+}
