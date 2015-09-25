@@ -1,0 +1,8 @@
+Priklad pouziti:
+
+java -jar jizdnirady-loader-all-0.1.jar -i /home/rhalada/temp/zipy
+
+S presmerovanim logu do souboru:
+
+java -jar jizdnirady-loader-all-0.1.jar -i /home/rhalada/temp/zipy 1>log.txt 2>err.txt
+
