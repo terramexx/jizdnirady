@@ -113,7 +113,7 @@ public class Loader {
             System.exit(1);
         }
 
-        Loader loader = new Loader();
+        Loader loader = new Loader(options);
         loader.run();
     }
 
