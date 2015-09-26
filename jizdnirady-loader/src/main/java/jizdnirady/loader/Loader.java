@@ -2,11 +2,13 @@ package jizdnirady.loader;
 
 import com.google.common.base.Preconditions;
 import jizdnirady.jdf.JdfMapper;
-import jizdnirady.jdf.JdfParser;
+import jizdnirady.jdf.JdfParserImpl;
 import jizdnirady.jdf.dto.JdfObject;
 import org.apache.commons.io.IOUtils;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.util.Map;
@@ -20,6 +22,8 @@ import java.util.zip.ZipInputStream;
  * <p>Ke stazeni z <a href="ftp://ftp.cisjr.cz/JDF/JDF.zip">ftp://ftp.cisjr.cz</a></p>
  */
 public class Loader {
+
+    private static final Logger log = LoggerFactory.getLogger(Loader.class);
 
     private String FILE_CHARSET = "windows-1250";
 
@@ -69,7 +73,7 @@ public class Loader {
                     zipInputStream.read(data, 0, (int) zipEntry.getSize());
                     try (StringReader reader = new StringReader(new String(data, FILE_CHARSET))) {
                         System.out.println(String.format("Nacitani souboru %s z archivu %s", zipEntry.getName(), zipFile.getName()));
-                        JdfParser<? extends JdfObject> jdfParser = new JdfParser(reader, mappingFunction);
+                        JdfParserImpl<? extends JdfObject> jdfParser = new JdfParserImpl(reader, mappingFunction);
                         JdfObject jdfObject;
                         try {
                             while ((jdfObject = jdfParser.read()) != null) {

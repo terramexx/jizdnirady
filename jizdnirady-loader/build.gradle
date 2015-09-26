@@ -1,9 +1,6 @@
 project.dependencies {
     compile project(':jizdnirady-common')
-
-    compile 'commons-io:commons-io:2.4'
     compile 'args4j:args4j:2.32'
-    compile 'com.google.guava:guava:18.0'
 }
 
 project.jar {
