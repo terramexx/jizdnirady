@@ -6,3 +6,7 @@ ftp://ftp.cisjr.cz/
 * Zde jsou informace a vyhlasky k jizdnim radum publikovane Ministerstvem dopravy:
 
 http://www.mdcr.cz/cs/verejna-doprava/kalendare-pro-jizdni-rady-a-cis/kalendare-pro-jizdni-rady-verejne-linkove-osobni-dopravy.htm
+
+* Vývěsné jízdní řády
+
+http://www.portal.jizdnirady.cz/
