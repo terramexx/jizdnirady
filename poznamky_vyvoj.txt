@@ -1,0 +1,5 @@
+*** 5.10.2015
+Pozor! V každém ZIPu (pro každou linku) může být použitá úplně jiná verze formátu JDF! Co jsem zatím viděl, tak se tam
+objevuje mix verzí 1.9, 1.10 a 1.11. Nelze se tedy spoléhat na to, že je aktuálně nejnovější verze 1.11, tak ten
+export bude v této verzi :( Bude nutné implementovat parser i pro ostatní verze a v každém ZIPU ověřovat, v jaké verzi
+je linka exportovaná a podle toho použít konkrétní parser.
