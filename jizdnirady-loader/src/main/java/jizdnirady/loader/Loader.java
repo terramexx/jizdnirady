@@ -1,19 +1,14 @@
 package jizdnirady.loader;
 
-import com.google.common.base.Preconditions;
-import jizdnirady.jdf.JdfMapper;
-import jizdnirady.jdf.JdfParserImpl;
-import jizdnirady.jdf.dto.JdfObject;
+import jizdnirady.jdf.JdfVerzeEnum;
+import jizdnirady.jdf.JdfVersionResolver;
+import jizdnirady.jdf.mapper.JdfFile;
 import org.apache.commons.io.IOUtils;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.*;
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.function.Function;
+import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -23,31 +18,11 @@ import java.util.zip.ZipInputStream;
  */
 public class Loader {
 
-    private static final Logger log = LoggerFactory.getLogger(Loader.class);
-
-    private String FILE_CHARSET = "windows-1250";
-
-    public static final Map<String, Function> JDF_MAPPING = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
-
-    static {
-        JDF_MAPPING.put("Caskody.txt", JdfMapper.MAPPER_CASOVY_KOD);
-        JDF_MAPPING.put("Dopravci.txt", JdfMapper.MAPPER_DOPRAVCE);
-        JDF_MAPPING.put("Linky.txt", JdfMapper.MAPPER_LINKA);
-        JDF_MAPPING.put("Pevnykod.txt", JdfMapper.MAPPER_PEVNY_KOD);
-        JDF_MAPPING.put("Spoje.txt", JdfMapper.MAPPER_SPOJ);
-        JDF_MAPPING.put("Udaje.txt", JdfMapper.MAPPER_UDAJ);
-        JDF_MAPPING.put("VerzeJDF.txt", JdfMapper.MAPPER_VERZE);
-        JDF_MAPPING.put("Zaslinky.txt", JdfMapper.MAPPER_ZASTAVKA_LINKY);
-        JDF_MAPPING.put("Zasspoje.txt", JdfMapper.MAPPER_ZASTAVKA_SPOJ);
-        JDF_MAPPING.put("Zastavky.txt", JdfMapper.MAPPER_ZASTAVKA);
-    }
-
     private LoaderOptions options;
 
     private Loader() {}
 
     public Loader(LoaderOptions options) {
-        Preconditions.checkNotNull(options);
         this.options = options;
     }
 
@@ -65,40 +40,55 @@ public class Loader {
         ZipInputStream zipInputStream = null;
         try {
             zipInputStream = new ZipInputStream(new FileInputStream(zipFile));
+
+            // Nacteme si obsah souboru zipu do pameti pro pozdejsi zpracovani
+            HashMap<ZipEntry, byte[]> zipContentMap = new HashMap<>();
             ZipEntry zipEntry;
             while ((zipEntry=zipInputStream.getNextEntry())!=null) {
-                Function mappingFunction = JDF_MAPPING.get(zipEntry.getName());
-                if (mappingFunction != null) {
-                    byte[] data = new byte[(int) zipEntry.getSize()];
-                    zipInputStream.read(data, 0, (int) zipEntry.getSize());
-                    try (StringReader reader = new StringReader(new String(data, FILE_CHARSET))) {
-                        System.out.println(String.format("Nacitani souboru %s z archivu %s", zipEntry.getName(), zipFile.getName()));
-                        JdfParserImpl<? extends JdfObject> jdfParser = new JdfParserImpl(reader, mappingFunction);
-                        JdfObject jdfObject;
-                        try {
-                            while ((jdfObject = jdfParser.read()) != null) {
-                                System.out.println("--> " + jdfObject.toString());
-                                // TODO Ulozit data do databaze nebo neco s tim udelat
-                            }
-                        } catch (Exception e) {
-                            System.err.println(String.format("Chyba pri nacitani souboru %s z archivu %s", zipEntry.getName(), zipFile.getName()));
-                            e.printStackTrace();
-                        }
-                    }
-                } else {
-                    System.err.println("Neexistuje mapovani pro soubor " + zipEntry.getName());
+                byte[] data = new byte[(int) zipEntry.getSize()];
+                zipInputStream.read(data, 0, (int) zipEntry.getSize());
+                zipContentMap.put(zipEntry, data);
+            }
+
+            // Najdeme soubor VerzeJDF.txt
+            Iterator<ZipEntry> keyIterator = zipContentMap.keySet().iterator();
+            JdfVerzeEnum jdfVerzeEnum = null;
+            while (keyIterator.hasNext()) {
+                zipEntry = keyIterator.next();
+                if (JdfFile.VERZEJDF.getFilename().equalsIgnoreCase(zipEntry.getName())) {
+                    jdfVerzeEnum = JdfVersionResolver.resolveVersion(new String(zipContentMap.get(zipEntry)));
+                    break;
                 }
             }
+
+            // Parsovani jednotlivych souboru
+            keyIterator = zipContentMap.keySet().iterator();
+            while (keyIterator.hasNext()) {
+                zipEntry = keyIterator.next();
+            }
+
+
+            // Ted muzeme zacit parsovat spravnou verzi
+
+
+
+            // TODO: Implementovat ...
+
         } catch (FileNotFoundException fnfe) {
             System.err.println("ZIP soubor nenalezen.");
             fnfe.printStackTrace();
         } catch (IOException ioe) {
             System.err.println("Chyba pri cteni ZIP souboru.");
             ioe.printStackTrace();
+        } catch (Throwable throwable) {
+            System.err.println("Neocekavana chyba.");
+            throwable.printStackTrace();
         } finally {
             IOUtils.closeQuietly(zipInputStream);
         }
     }
+
+
 
 
     /**

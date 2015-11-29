@@ -1,3 +1,0 @@
-"820831","1","Na lince platí tarif vyhlášený ÈSAD Vsetín a.s. Informace o tarifu  a smluvních pøepravních podmínkách  jsou zveøejnìny ve vozidlech na lince.","1";
-"820831","2","Na lince platí slevy pro držitele prùkazu ISIC.","1";
-"820831","3","IDS - spoj 43 je v úseku Zlín,Èepkov-Zlín,Mladcová,Bartošùv dùm v systému integrované dopravy.","1";
